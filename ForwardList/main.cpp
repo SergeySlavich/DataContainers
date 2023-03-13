@@ -6,12 +6,9 @@ using namespace std;
 //В класс ForwardList добавить следующие методы :
 //void pop_front();	//удаляет элемент c начала списка
 //void pop_back();	//удаляет элемент c конца списка
-
 //void insert(int Data, int Index);	//вставляет элемент в список по заданному индексу
 //void erase(int Index);				//удаляет элемент из списка по заданному индексу
-
 //Деструктор дожен очищать список перед удалением
-
 //CopyMethods;
 //MoveMethods;
 
@@ -79,7 +76,27 @@ public:
 		}
 	}
 
+	//В класс ForwardList добавить следующие методы :
+	//void pop_front();	//удаляет элемент c начала списка
 	
+	void pop_front()	//удаляет элемент c начала списка
+	{
+		Element* Temp = Head;	//Создаем итератор
+		Temp = Temp->pNext;		//Переходим на второй элемент
+		Head = Temp;			//Голову списка "переводим" на второй элемент:
+	}
+	//void pop_back();	//удаляет элемент c конца списка
+	void pop_back()		//удаляет элемент c конца списка
+	{
+		if (Head == nullptr)return;			//Если список пуст, прерываем выполнение программы
+		Element* Temp = Head;				//Создаем итератор
+		while (Temp->pNext != nullptr)		//Доходим до конца списка:
+			Temp = Temp->pNext;
+		//3) Добавляем элемент в конец списка:
+		Temp->pNext = New;
+	}
+	//void insert(int Data, int Index);	//вставляет элемент в список по заданному индексу
+	//void erase(int Index);				//удаляет элемент из списка по заданному индексу
 };
 
 void main()
