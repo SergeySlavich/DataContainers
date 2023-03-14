@@ -4,9 +4,9 @@ using namespace std;
 
 //TODO:
 //В класс ForwardList добавить следующие методы :
-//void pop_front();	//удаляет элемент c начала списка
-//void pop_back();	//удаляет элемент c конца списка
-//void insert(int Data, int Index);	//вставляет элемент в список по заданному индексу
+//void pop_front();						//удаляет элемент c начала списка
+//void pop_back();						//удаляет элемент c конца списка
+//void insert(int Data, int Index);		//вставляет элемент в список по заданному индексу
 //void erase(int Index);				//удаляет элемент из списка по заданному индексу
 //Деструктор дожен очищать список перед удалением
 //CopyMethods;
@@ -28,6 +28,7 @@ public:
 	friend class ForwardList;
 };
 
+#define tab "\t"
 class ForwardList	//Forward - односвязный, однонаправленный
 {
 	Element* Head;	//Голова списка, содержит указатель на нулевой элемент списка
@@ -37,10 +38,14 @@ public:
 		Head = nullptr;		//Если список пуст, то его голова указывает на 0.
 		cout << "LConstructor:\t" << this << endl;
 	}
+	//Деструктор дожен очищать список перед удалением
 	~ForwardList()
 	{
+		while (Head->pNext != nullptr) pop_front();
 		cout << "LDestructor:\t" << this << endl;
 	}
+	//				Methods:
+
 	//		Adding elements:
 	void push_front(int Data)
 	{
@@ -51,7 +56,6 @@ public:
 		//3) Голову списка "переводим" на новый элемент:
 		Head = New;
 	}
-#define tab "\t"
 	void push_back(int Data)
 	{
 		if (Head == nullptr)return push_front(Data);
@@ -64,7 +68,69 @@ public:
 		//3) Добавляем элемент в конец списка:
 		Temp->pNext = New;
 	}
-	//				Methods:
+	//void insert(int Data, int Index);		//вставляет элемент в список по заданному индексу
+	void insert(int Index, int Data)		//вставляет элемент в список по заданному индексу
+	{
+		if (!(Index))
+		{
+			push_front(Data);
+			return;
+		}
+		Element* Temp = Head;				//Итератор
+		for (int i = 0; i < Index - 1; i++)	//Переходим до элемента перед нужным
+		{
+			Temp = Temp->pNext;
+			if (!(Temp->pNext->pNext))
+			{
+				push_back(Data);
+				return;
+			}
+			if (!(Temp->pNext))return;
+		}
+		Element* New = new Element(Data);	//Создаем новый элемент
+		New->pNext = Temp->pNext;			//Перепривязываем хвост списка к новому элементу
+		Temp->pNext = New;					//Привязываем элемент к списку
+	}
+
+	//		Deleting elements:
+	//В класс ForwardList добавить следующие методы :
+	//void pop_front();	//удаляет элемент c начала списка
+	
+	void pop_front()	//удаляет элемент c начала списка
+	{
+		Element* Temp = Head;				//Создаем итератор
+		Temp = Temp->pNext;					//Переходим на второй элемент
+		Head = Temp;						//Голову списка "переводим" на второй элемент:
+	}
+
+	//void pop_back();	//удаляет элемент c конца списка
+	void pop_back()		//удаляет элемент c конца списка
+	{
+		if (Head == nullptr)return;			//Если список пуст, прерываем выполнение программы
+		Element* Temp = Head;				//Создаем итератор
+		while (Temp->pNext->pNext)			//
+			Temp = Temp->pNext;				//Доходим до предпоследнего элемента списка
+		delete Temp->pNext;					//удаляем последний элемент
+		Temp->pNext = nullptr;
+	}
+	//void erase(int Index);				//удаляет элемент из списка по заданному индексу
+	void erase(int Index)				//удаляет элемент из списка по заданному индексу
+	{
+		if (!(Index))
+		{
+			pop_front();
+			return;
+		}
+		Element* Temp = Head;
+		for (int i = 0; i < Index - 1; i++)
+		{
+			Temp = Temp->pNext;
+		}
+		Element* buffer = Temp->pNext->pNext;
+		delete Temp->pNext;
+		Temp->pNext = buffer;
+	}
+
 	void print()const
 	{
 		Element* Temp = Head;	//Temp - Это итератор, при помощи 
@@ -75,35 +141,34 @@ public:
 			Temp = Temp->pNext;	//Переход на следующий элемент
 		}
 	}
-
-	//В класс ForwardList добавить следующие методы :
-	//void pop_front();	//удаляет элемент c начала списка
-	
-	void pop_front()	//удаляет элемент c начала списка
+	Element* read_front()
 	{
-		Element* Temp = Head;	//Создаем итератор
-		Temp = Temp->pNext;		//Переходим на второй элемент
-		Head = Temp;			//Голову списка "переводим" на второй элемент:
+		Element* Temp = Head;
+		Temp = Temp->pNext;
+		return Temp;
 	}
-	//void pop_back();	//удаляет элемент c конца списка
-	void pop_back()		//удаляет элемент c конца списка
+	Element* read(int Index)
 	{
-		if (Head == nullptr)return;			//Если список пуст, прерываем выполнение программы
-		Element* Temp = Head;				//Создаем итератор
-		while (Temp->pNext != nullptr)		//Доходим до конца списка:
-			Temp = Temp->pNext;
-		//3) Добавляем элемент в конец списка:
-		Temp->pNext = New;
+		Element* Temp = Head;
+		for (int i = 0; i < Index - 1; i++) Temp = Temp->pNext;
+		return Temp;
 	}
-	//void insert(int Data, int Index);	//вставляет элемент в список по заданному индексу
-	//void erase(int Index);				//удаляет элемент из списка по заданному индексу
+	//CopyMethods;
+	void copy_ForwardList(ForwardList& original)
+	{
+		Element* Temp = Head;
+		for (int i = 0; original.read(i)->pNext = nullptr; i++)
+		{
+			push_back(original.read(i)->Data);
+		}
+	}
 };
 
 void main()
 {
 	setlocale(LC_ALL, "");
 	int n;
-	cout << "Введите размер списка: "; cin >> n;
+	cout << "Input size of list: "; cin >> n;
 	ForwardList list;
 	for (int i = 0; i < n; i++)
 	{
@@ -111,6 +176,45 @@ void main()
 		list.push_back(rand() % 100);
 	}
 	list.print();
-	//list.push_back(123);
-	//list.print();
+
+	////		CHECK push_back()
+	/*cout << "Using push_back()" << endl;
+	list.push_back(123);
+	list.print();*/
+	
+	////		CHECK pop_front()
+	/*cout << "using pop_front()" << endl;
+	list.pop_front();
+	list.print();*/
+
+	////		CHECK pop_back()
+	/*cout << "using pop_back()" << endl;
+	list.pop_back();
+	list.print();*/
+
+	////		CHECK insert(Index, Data)
+	/*int Index, Data;
+	cout << "using insert(Index, Data)" << endl;
+	cout << "Input Index: "; cin >> Index;
+	cout << "Input Data: "; cin >> Data;
+	list.insert(Index, Data);
+	list.print();*/
+
+	////		CHECK erase(Index)
+	/*int Index;
+	cout << "Using erase(Index)" << endl;
+	cout << "Input Index: "; cin >> Index;
+	list.erase(Index);
+	list.print();*/
+	
+	////		CHECK copy_method()
+	cout << "Using copy_method()" << endl;
+	cout << list.read(0) << endl;
+	cout << list.read(1) << endl;
+	cout << list.read(2) << endl;
+	cout << list.read(3) << endl;
+	cout << list.read(4) << endl;
+	//ForwardList list2;
+	//list2.copy_ForwardList(list);
+	//list2.print();
 }
