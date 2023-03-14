@@ -19,21 +19,28 @@ class Element
 {
 	int Data;		//значение элемента
 	Element* pNext;	//Адрес следующего элемента
+	static int count;
 public:
 	Element(int Data, Element* pNext = nullptr) :Data(Data), pNext(pNext)
 	{
+		count++;
 		cout << "EConstructor:\t" << this << endl;
 	}
 	~Element()
 	{
+		count--;
 		cout << "EDestructor:\t" << this << endl;
 	}
 	friend class ForwardList;
 };
 
+int Element::count = 0; // инициализируем статическую переменную,
+						//объявленнную в классе Element
+
 class ForwardList	//Forward - односвязный, однонаправленный
 {
 	Element* Head;	//Голова списка, содержит указатель на нулевой элемент списка
+	int size;
 public:
 	ForwardList()
 	{
@@ -47,12 +54,11 @@ public:
 	//		Adding elements:
 	void push_front(int Data)
 	{
-		//1) Создаем новый элемент:
-		Element* New = new Element(Data);
-		//2) Новый элемент должен указывать на начало списка:
-		New->pNext = Head;
-		//3) Голову списка "переводим" на новый элемент:
-		Head = New;
+		Head = new Element(Data, Head);
+		//Element* New = new Element(Data);//1) Создаем новый элемент:
+		//New->pNext = Head;//2) Новый элемент должен указывать на начало списка:
+		//Head = New;//3) Голову списка "переводим" на новый элемент:
+		size++;
 	}
 #define tab "\t"
 	void push_back(int Data)
@@ -66,6 +72,22 @@ public:
 			Temp = Temp->pNext;
 		//3) Добавляем элемент в конец списка:
 		Temp->pNext = New;
+		size++;
+	}
+	void insert(int Index, int Data)
+	{
+		if (Index == 0)return push_front(Data);
+		if (Index > size)return;
+
+		//1) Создаем новый элемент
+		Element* New = new Element(Data);
+		//2) Доходим до нужного элемента
+		Element* Temp = Head;
+		for (int i = 0; i < Index - 1; i++) Temp = Temp->pNext;
+		//3) 
+		New->pNext = Temp->pNext;
+		Temp->pNext = New;
+		size++;
 	}
 	//				Methods:
 	void print()const
@@ -77,6 +99,8 @@ public:
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 			Temp = Temp->pNext;	//Переход на следующий элемент
 		}
+		cout << "Количество элементов списка: " << size << endl;
+		cout << "Общее количество элементов: " << Element::count << endl;
 	}
 
 	
@@ -96,4 +120,16 @@ void main()
 	list.print();
 	//list.push_back(123);
 	//list.print();
+	int value;
+	int index;
+	cout << "Введите инлекс добавляемого элемента: "; cin >> index;
+	cout << "Введите значение добавляемого элемента: "; cin >> value;
+	list.insert(index, value);
+	list.print();
+
+	ForwardList list2;
+	list2.push_back(3);
+	list2.push_back(5);
+	list2.push_back(8);
+	list2.print();
 }
