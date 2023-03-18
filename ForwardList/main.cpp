@@ -3,8 +3,8 @@
 
 //#define BASE_CHECK
 //#define RANGE_BASED_FOR_ARRAY
-//#define HOME_WORK_1
-#define RANGE_BASED_FOR_LIST
+#define HOME_WORK_1
+//#define RANGE_BASED_FOR_LIST
 
 void main()
 {
