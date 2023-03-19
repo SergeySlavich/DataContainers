@@ -161,7 +161,16 @@ template<typename T>void ForwardList<T>::print()const
 	cout << "Count of elements' list:" << size << endl;
 	cout << "Count all elements: " << Element::count << endl;
 }
-
+//					Operators:
+template<typename T>ForwardList<T>& ForwardList<T>::operator=(const ForwardList<T>& other)
+{
+	ForwardList<T> result;
+	for (Element<T>* Temp = Head; Temp; Temp = Temp->pNext, other.Temp = other.Temp->pNext)
+	{
+		Temp->Data = other->Data;
+	}
+	return result;
+}
 ////////////////////////////////////////////////////////////////
 ////////				CLASS DEFINITION END		////////////
 ////////////////////////////////////////////////////////////////

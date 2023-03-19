@@ -52,6 +52,7 @@ public:
 	ForwardList();
 	ForwardList(const std::initializer_list<T>& il);
 	~ForwardList();
+	//T& operator+(const ForwardList<T>& left, const ForwardList<T>& right);
 	//					Adding elements:
 	void push_front(T Data);
 	void push_back(T Data);
@@ -61,6 +62,8 @@ public:
 	void pop_back();
 	//					Methods:
 	void print()const;
+	//					Operators:
+	ForwardList<T>& operator=(const ForwardList<T>& other);
 };
 
 ////////////////////////////////////////////////////////////////

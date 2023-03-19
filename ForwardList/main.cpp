@@ -6,6 +6,20 @@
 #define HOME_WORK_1
 //#define RANGE_BASED_FOR_LIST
 
+//TODO:
+//Проверочный код в секции HOME_WORK_1 должен заработать :
+//https://github.com/okovtun/PV_225/blob/e27ac0456e5ae4235e83725eac11cf455de28748/DataContainers/ForwardList/main.cpp#L245
+
+template<typename T>T operator+(const ForwardList<T>& left, const ForwardList<T>& right)
+{
+	ForwardList<T> result = left;
+	for (right.Head; right.Temp->pNext == nullptr; right.Temp = right.Temp->pNext)
+	{
+		result.push_back(right->Data);
+	}
+	return result;
+}
+
 void main()
 {
 	setlocale(LC_ALL, "Russian");
@@ -75,7 +89,7 @@ void main()
 	ForwardList<int> list2 = { 34, 55, 89 };
 	for (int i : list2)cout << i << tab; cout << endl;
 
-	ForwardList list3 = list + list2;
+	ForwardList<int> list3 = list;// +list2;
 	for (int i : list3)cout << i << tab; cout << endl;
 #endif // HOME_WORK_1
 }
