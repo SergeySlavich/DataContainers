@@ -205,12 +205,13 @@ public:
 	//					Operators:
 	ForwardList<T> operator+(ForwardList<T>& other)
 	{
-		ForwardList result = *this;
+		ForwardList<T> result = {};
+		for (int i : *this)
+			result.push_back(i);
 		for (int i : other)
-			push_back(i);
+			result.push_back(i);
 		return result;
 	}
-	friend class Iterator<T>;
 };
 
 #define HOME_WORK_1
@@ -229,12 +230,12 @@ void main()
 	cout << "list2:\n";
 	for (int i : list2)cout << i << tab; cout << endl;
 
-	/*ForwardList<int> list3 = list + list2;
+	ForwardList<int> list3 = list + list2;
 	cout << "list3:\n";
-	for (int i : list3)cout << i << tab; cout << endl;*/
+	for (int i : list3)cout << i << tab; cout << endl;
 
 	cout << "Reverse list:\n";
-	ForwardList<int> list4 = list.reverse();
+	ForwardList<int> list4 = list3.reverse();
 	for (int i : list4)cout << i << tab; cout << endl;
 #endif // HOME_WORK_1
 }
