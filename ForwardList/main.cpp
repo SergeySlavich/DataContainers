@@ -38,7 +38,7 @@ public:
 };
 
 template<typename T>
-int Element<T>::count = 0;	//Инициализируем статическую переменную, объявленную в классе 'Element'
+int Element<T>::count = 0;
 
 template<typename T>
 class Iterator
@@ -196,88 +196,27 @@ public:
 		cout << "Count all elements: " << Element::count << endl;
 	}
 	//					Operators:
-	ForwardList<T> operator+(ForwardList<int>& other)
+	ForwardList<T> operator+(ForwardList<T>& other)
 	{
-		for (int const* it = other.begin(); it != other.end(); it++)
-		{
-			push_back(*it);
-		}
-		return this;
+		ForwardList result = *this;
+		for (int i : other)
+			push_back(i);
+		return result;
 	}
 	friend class Iterator<T>;
 };
 
-//#define BASE_CHECK
-//#define RANGE_BASED_FOR_ARRAY
 #define HOME_WORK_1
-//#define RANGE_BASED_FOR_LIST
 
 void main()
 {
 	setlocale(LC_ALL, "");
 
-#ifdef BASE_CHECK
-	int n;
-	cout << "Input size of list: "; cin >> n;
-	ForwardList list;
-	for (int i = 0; i < n; i++)
-	{
-		list.push_front(rand() % 100);
-		//list.push_back(rand() % 100);
-	}
-	list.print();
-	//list.push_back(123);
-
-	int value;
-	int index;
-	cout << "Input index of adding element: "; cin >> index;
-	cout << "Input data of adding element: "; cin >> value;
-	list.insert(index, value);
-	list.print();
-
-	ForwardList list2;
-	list2.push_back(3);
-	list2.push_back(5);
-	list2.push_back(8);
-	list2.print();
-#endif // BASE_CHECK
-
-#ifdef RANGE_BASED_FOR_ARRAY
-	int arr[] = { 3, 5, 8, 13, 21 };
-
-	/*for (int i = 0; i < sizeof(arr)/sizeof(int); i++)
-	{
-		cout << arr[i] << tab;
-	}
-	cout << endl;*/
-	//Range-based for
-	for (int i : arr)
-	{
-		cout << i << tab;
-	}
-	cout << endl;
-#endif
-
-#ifdef RANGE_BASED_FOR_LIST
-	ForwardList<int> list{ 3, 5, 8, 13, 21 };
-	for (int i : list) std::cout << i << tab; std::cout << endl;
-	
-	ForwardList<double> d_list{ 3, 5, 8, 13, 21 };
-	for (double i : d_list) std::cout << i << tab; std::cout << endl;
-	
-	ForwardList<std::string> s_list{ "Хорошо", "живет", "на", "свете", "Винни", "Пух"};
-	for (std::string i : s_list) std::cout << i << tab; std::cout << endl;
-#endif
-
 #ifdef HOME_WORK_1
 	ForwardList<int> list = { 3, 5, 8, 13, 21 };
 	//list.print();
 	cout << "list:\n";
-	for (int i : list)
-	{
-		cout << i << tab;
-	}
-	cout << endl;
+	for (int i : list)cout << i << tab;cout << endl;
 
 	ForwardList<int> list2 = { 34, 55, 89 };
 	cout << "list2:\n";
@@ -286,6 +225,6 @@ void main()
 	ForwardList<int> list3 = list + list2;
 	cout << "list3:\n";
 	for (int i : list3)cout << i << tab; cout << endl;
-	cout << "THE END\n";
+
 #endif // HOME_WORK_1
 }
