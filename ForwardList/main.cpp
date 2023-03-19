@@ -198,12 +198,13 @@ public:
 	//					Operators:
 	ForwardList<T> operator+(ForwardList<T>& other)
 	{
-		ForwardList result = *this;
+		ForwardList<T> result = {};
+		for (int i : *this)
+			result.push_back(i);
 		for (int i : other)
-			push_back(i);
+			result.push_back(i);
 		return result;
 	}
-	friend class Iterator<T>;
 };
 
 #define HOME_WORK_1
