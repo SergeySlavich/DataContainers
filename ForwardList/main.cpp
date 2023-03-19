@@ -2,6 +2,15 @@
 #include<iostream>
 using namespace std;
 
+//TODO:
+//1. Проверочный код в секции HOME_WORK_1 должен заработать :
+//https://github.com/okovtun/PV_225/blob/e27ac0456e5ae4235e83725eac11cf455de28748/DataContainers/ForwardList/main.cpp#L245
+
+
+//2. В классе ForwardList написать метод reverse(), 
+//который меняет порядок следования элементов на противоположный.
+
+
 #define tab "\t"
 
 template<typename T>class ForwardList;
@@ -62,12 +71,6 @@ public:
 	{
 		return Temp->Data;
 	}
-	/*ForwardList operator+(const ForwardList& left, const ForwardList& right)
-	{
-		ForwardList New = new ForwardList
-		this.end() 
-		return;
-	}*/
 };
 
 template<typename T>
@@ -192,12 +195,22 @@ public:
 		cout << "Count of elements' list:" << size << endl;
 		cout << "Count all elements: " << Element::count << endl;
 	}
+	//					Operators:
+	ForwardList<T> operator+(ForwardList<int>& other)
+	{
+		for (int const* it = other.begin(); it != other.end(); it++)
+		{
+			push_back(*it);
+		}
+		return this;
+	}
+	friend class Iterator<T>;
 };
 
 //#define BASE_CHECK
 //#define RANGE_BASED_FOR_ARRAY
-//#define HOME_WORK_1
-#define RANGE_BASED_FOR_LIST
+#define HOME_WORK_1
+//#define RANGE_BASED_FOR_LIST
 
 void main()
 {
@@ -259,6 +272,7 @@ void main()
 #ifdef HOME_WORK_1
 	ForwardList<int> list = { 3, 5, 8, 13, 21 };
 	//list.print();
+	cout << "list:\n";
 	for (int i : list)
 	{
 		cout << i << tab;
@@ -266,9 +280,12 @@ void main()
 	cout << endl;
 
 	ForwardList<int> list2 = { 34, 55, 89 };
+	cout << "list2:\n";
 	for (int i : list2)cout << i << tab; cout << endl;
 
-	ForwardList list3 = list + list2;
+	ForwardList<int> list3 = list + list2;
+	cout << "list3:\n";
 	for (int i : list3)cout << i << tab; cout << endl;
+	cout << "THE END\n";
 #endif // HOME_WORK_1
 }
