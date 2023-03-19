@@ -193,7 +193,14 @@ public:
 		for (Element<T>* Temp = Head; Temp; Temp = Temp->pNext)
 			cout << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
 		cout << "Count of elements' list:" << size << endl;
-		cout << "Count all elements: " << Element::count << endl;
+		//cout << "Count all elements: " << Element::count << endl;
+	}
+	ForwardList<T> reverse()
+	{
+		ForwardList<T> result{};
+		for (int i : *this)
+			result.push_front(i);
+		return result;
 	}
 	//					Operators:
 	ForwardList<T> operator+(ForwardList<T>& other)
@@ -222,9 +229,12 @@ void main()
 	cout << "list2:\n";
 	for (int i : list2)cout << i << tab; cout << endl;
 
-	ForwardList<int> list3 = list + list2;
+	/*ForwardList<int> list3 = list + list2;
 	cout << "list3:\n";
-	for (int i : list3)cout << i << tab; cout << endl;
+	for (int i : list3)cout << i << tab; cout << endl;*/
 
+	cout << "Reverse list:\n";
+	ForwardList<int> list4 = list.reverse();
+	for (int i : list4)cout << i << tab; cout << endl;
 #endif // HOME_WORK_1
 }
