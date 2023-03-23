@@ -74,9 +74,15 @@ public:
 //1. Написать методы insert() и erase();					******HOMEWORK******
 	void insert(int index, int Data)
 	{
+		if (index > size - 1) return;
 		if (!(index))
 		{
 			push_front(Data);
+			return;
+		}
+		if (index == size - 1)
+		{
+			push_back(Data);
 			return;
 		}
 		Element* New = new Element(Data);
@@ -84,19 +90,20 @@ public:
 		{
 			Element* Temp = Head;
 			for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
-			//New->pPrev = Temp;
-			//New->pNext = Temp->pNext;
-			//Temp->pNext = New;
+			/*New->pPrev = Temp;
+			New->pNext = Temp->pNext;
+			Temp->pNext = New;*/
+			//2. Оптимизировать методы добавления элементов;			***HOMEWORK***
 			Temp->pNext = new Element(Data, Temp->pNext, Temp->pPrev);
 		}
 		else
 		{
 			Element* Temp = Tail;
-			for (int i = size; i > index; i--)Temp = Temp->pPrev;
-			//New->pPrev = Temp;
-			//New->pNext = Temp->pNext;
-			//Temp->pNext = New;
-			Temp->pPrev = new Element(Data, Temp->pNext, Temp->pPrev);
+			for (int i = size; i > index - 1; i--)Temp = Temp->pPrev;
+			/*New->pPrev = Temp;
+			New->pNext = Temp->pNext;
+			Temp->pNext = New;*/
+			Temp = new Element(Data, Temp->pNext, Temp->pPrev);
 		}
 		size++;
 	}
@@ -177,6 +184,6 @@ void main()
 	//list.print();
 	//list.reverse_print();
 	//list.pop_back();
-	list.insert(6, 777);
+	list.insert(4, 777);
 	list.print();
 }
