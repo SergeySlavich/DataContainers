@@ -1,6 +1,10 @@
 ﻿#include<iostream>
 using namespace std;
 
+//TODO:
+//1. Написать методы insert() и erase();
+//2. Оптимизировать методы добавления элементов;
+
 #define tab "\t"
 
 class List
@@ -66,6 +70,36 @@ public:
 		}
 		size++;
 	}
+
+//1. Написать методы insert() и erase();					******HOMEWORK******
+	void insert(int index, int Data)
+	{
+		if (!(index))
+		{
+			push_front(Data);
+			return;
+		}
+		Element* New = new Element(Data);
+		if (index <= size / 2)
+		{
+			Element* Temp = Head;
+			for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
+			//New->pPrev = Temp;
+			//New->pNext = Temp->pNext;
+			//Temp->pNext = New;
+			Temp->pNext = new Element(Data, Temp->pNext, Temp->pPrev);
+		}
+		else
+		{
+			Element* Temp = Tail;
+			for (int i = size; i > index; i--)Temp = Temp->pPrev;
+			//New->pPrev = Temp;
+			//New->pNext = Temp->pNext;
+			//Temp->pNext = New;
+			Temp->pPrev = new Element(Data, Temp->pNext, Temp->pPrev);
+		}
+		size++;
+	}
 	//			Removing elements:
 	void pop_front()
 	{
@@ -92,6 +126,24 @@ public:
 		Tail->pNext = nullptr;
 		size--;
 	}
+//1. Написать методы insert() и erase();					******HOMEWORK******
+	/*void erase(int index, int Data)
+	{
+		if (index <= size / 2)
+		{
+			Element* Temp = Head;
+			for (int i = 0; i < index - 1; i++)Temp = Temp->pNext;
+			Temp->pNext = 
+		}
+		else
+		{
+			Element* Temp = Tail;
+			for (int i = size; i > index; i--)Temp = Temp->pPrev;
+
+		}
+		size--;
+	}*/
+
 	//			Methods:
 	void print()const
 	{
@@ -122,7 +174,9 @@ void main()
 	{
 		list.push_back(rand() % 100);
 	}
-	list.print();
-	list.reverse_print();
+	//list.print();
+	//list.reverse_print();
 	//list.pop_back();
+	list.insert(6, 777);
+	list.print();
 }
