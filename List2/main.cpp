@@ -1,6 +1,10 @@
 ﻿#include<iostream>
 using namespace std;
 
+//TODO:
+//1. Написать методы insert() и erase();
+//2. Функции print() и reverse_print() должны заработать;
+
 #define tab "\t"
 
 class List
@@ -129,7 +133,15 @@ public:
 	{
 		return Head;
 	}
+	Iterator begin()const
+	{
+		return Head;
+	}
 	Iterator end()
+	{
+		return nullptr;
+	}
+	Iterator end()const
 	{
 		return nullptr;
 	}
@@ -137,7 +149,15 @@ public:
 	{
 		return Tail;
 	}
+	ReverseIterator rbegin()const
+	{
+		return Tail;
+	}
 	ReverseIterator rend()
+	{
+		return nullptr;
+	}
+	ReverseIterator rend()const
 	{
 		return nullptr;
 	}
@@ -243,9 +263,32 @@ public:
 		Tail->pNext = nullptr;
 		size--;
 	}
-	//			Methods:
-	void print()const
+	//						***HOME WORK: method "erase()"***
+	void erase(int Index)
 	{
+		if (!(Index)) return pop_front();
+		if (Index == size - 1) return pop_back();
+		if (Index >= size) return;
+		Element* Temp;
+		if (Index <= size / 2)
+		{
+			Temp = Head;
+			for (int i = 0; i < Index; i++) Temp = Temp->pNext;
+		}
+		else
+		{
+			Temp = Tail;
+			for (int i = 0; i < size - Index - 1; i++) Temp = Temp->pPrev;
+		}
+		Temp->pPrev->pNext = Temp->pNext;
+		Temp->pNext->pPrev = Temp->pPrev;
+		delete Temp;
+		size--;
+	}
+	//			Methods:
+	/*void print()const
+	{
+		cout << "method print():\n";
 		for (Element* Temp = Head; Temp; Temp = Temp->pNext)
 		{
 			cout << Temp->pPrev << tab << Temp << tab << Temp->Data << tab << Temp->pNext << endl;
@@ -254,21 +297,43 @@ public:
 	}
 	void reverse_print()const
 	{
+		cout << "method reverse_print():\n";
 		for (Element* Temp = Tail; Temp; Temp = Temp->pPrev)
 		{
 			cout << Temp->pNext << tab << Temp << tab << Temp->Data << tab << Temp->pPrev << endl;
 		}
 		cout << "Count of size: " << size << endl;
-	}
+	}*/
 };
 
-//#define BASE_CHECK
+//#define HOMEWORK_ERASE
+#define HOMEWORK_REVERSE_PRINT
+
+//2. Функции print() и reverse_print() должны заработать;
+void print(const List& list)
+{
+	cout << "method print():\n";
+	for (int i : list)
+	{
+		cout << i << tab;
+	}
+	cout << endl;
+}
+void reverse_print(const List& list)
+{
+	cout << "method reverse_print():\n";
+	for (List::ReverseIterator rit = list.rbegin(); rit != list.rend(); ++rit)
+	{
+		cout << *rit << tab;
+	}
+	cout << endl;
+}
 
 void main()
 {
 	setlocale(LC_ALL, "Russian");
 
-#ifdef BASE_CHECK
+#ifdef HOMEWORK_ERASE
 	int n;
 	cout << "Input size of list: "; cin >> n;
 	List list;
@@ -276,32 +341,20 @@ void main()
 	{
 		list.push_back(rand() % 100);
 	}
+	cout << "original list:" << endl;
 	list.print();
-	list.reverse_print();
-	/*list.push_back(888);
-	list.print();
-	list.reverse_print();*/
 
-	//list.pop_back();
-
-	int index, value;
-	cout << "Input index of adding element: "; cin >> index;
-	cout << "Input value of adding element: "; cin >> value;
-	list.insert(index, value);
+	int index;
+	cout << "Input index of erasing element: "; cin >> index;
+	cout << "list after erasing element:" << endl;
+	list.erase(index);
 	list.print();
-	list.reverse_print();
 #endif
 
+#ifdef HOMEWORK_REVERSE_PRINT
 	List list = { 3, 5, 8, 13, 21 };
 	//list.print();
-	for (int i : list)
-	{
-		cout << i << tab;
-	}
-	cout << endl;
-	for (List::ReverseIterator rit = list.rbegin(); rit != list.rend(); ++rit)
-	{
-		cout << *rit << tab;
-	}
-	cout << endl;
+	print(list);
+	reverse_print(list);
+#endif
 }
