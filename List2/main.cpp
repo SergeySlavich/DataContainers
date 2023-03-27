@@ -149,7 +149,7 @@ public:
 	{
 		return Tail;
 	}
-	ReverseIterator rbegin()const
+	const ReverseIterator rbegin()const
 	{
 		return Tail;
 	}
@@ -157,7 +157,7 @@ public:
 	{
 		return nullptr;
 	}
-	ReverseIterator rend()const
+	const ReverseIterator rend()const
 	{
 		return nullptr;
 	}
@@ -324,6 +324,7 @@ void reverse_print(const List& list)
 	cout << "method reverse_print():\n";
 	for (List::ReverseIterator rit = list.rbegin(); rit != list.rend(); ++rit)
 	{
+		*rit *= 100;
 		cout << *rit << tab;
 	}
 	cout << endl;
