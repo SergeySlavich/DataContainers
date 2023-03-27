@@ -191,7 +191,7 @@ public:
 	}
 	List(const std::initializer_list<T>& il) :List()
 	{
-		for (int const* it = il.begin(); it != il.end(); it++)
+		for (T const* it = il.begin(); it != il.end(); it++)
 		{
 			push_back(*it);
 		}
@@ -330,7 +330,7 @@ void main()
 	list.reverse_print();
 #endif // BASE_CHECK
 
-	List<int> list = { 3, 5, 8, 13, 21 };
+	List<double> list = { 3.2, 5.6, 8.7, 13.4, 21.3 };
 
 	//list.print();
 	for (int i : list)
@@ -339,9 +339,9 @@ void main()
 	}
 	cout << endl;
 
-	for (int& i : list)i *= 10;
+	for (double& i : list)i *= 10;
 
 	print(list);
-	for (List<int>::ReverseIterator rit = list.rbegin(); rit != list.rend(); rit++)*rit /= 10;
+	for (List<double>::ReverseIterator rit = list.rbegin(); rit != list.rend(); rit++)*rit /= 10;
 	reverse_print(list);
 }
