@@ -97,6 +97,11 @@ public:
 	{
 		return (double)Sum(Root) / Count(Root);
 	}
+	int Depth(Element* Root)							//возвращает глубину дерева - TODO (in progress)
+	{
+		if (Root == nullptr)return 0;
+		else return Depth(Root->pLeft) + Depth(Root->pRight) + 1;
+	}   
 	//Обеспечить вызов методов без необходимости передавать в них корень дерева
 	//tree.print(tree.GetRoot()) = > tree.print();
 	void print()
@@ -119,14 +124,9 @@ public:
 	{
 		return Sum(this->getRoot());
 	}
-	int Depth()							//возвращает глубину дерева
+	int Depth()					//TODO (in progress)
 	{
-		if (Root == nullptr)return 0;
-		if (Root->pLeft != nullptr)
-		print(Root->pLeft);
-		cout << Root->Data << '\t';
-		print(Root->pRight);
-		return;
+		return Depth(this->getRoot());
 	}
 };
 
@@ -178,6 +178,9 @@ void main()
 	cout << "Sum of elements of tree by Sum(tree.getRoot()): " << tree.Sum(tree.getRoot()) << endl;
 	cout << "Sum of elements of tree by Sum(): " << tree.Sum() << endl;
 	cout << "Avg of elements of tree: " << tree.Avg() << endl;
+	cout << "\t\tMethods in progress:\t";
+	cout << "Depth of tree by Depth(tree.getRoot()): " << tree.Depth(tree.getRoot()) << endl;
+	cout << "Depth of tree by Depth(): " << tree.Depth() << endl;
 
 	/*UniqueTree tree2;
 	for (int i = 0; i < n; i++)
