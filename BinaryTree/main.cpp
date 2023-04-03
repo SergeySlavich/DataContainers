@@ -2,11 +2,18 @@
 using namespace std;
 
 //TODO:
-//1. Выяснить, почему в дереве не появляются элементы;
-// Ответ: в методе insert() два входящих аргумента: добавляемое_значение и указатель_на_корневой_элемент.
-//  В новом созданном дереве (еще пустом) корневой элемент равен nullptr.
-// А в самом методе первым делом происходит проверка if (Root == nullptr)return; и выполняется возврат из метода.
-//2. В классе Tree написать метод print();
+//int minValue();	DONE
+//int maxValue();	DONE
+//int Count();		DONE
+//int Sum();		DONE
+//int Avg();		DONE
+//int Depth();		//возвращает глубину дерева
+//void Clear();		//Удаляет все элементы из Бинарного дерева
+//void Erase();		//удаляет из дерева заданное значение
+
+//Обеспечить вызов методов без необходимости передавать в них корень дерева
+//tree.print(tree.GetRoot()) = > tree.print();
+
 
 class Tree
 {
@@ -20,11 +27,11 @@ class Tree
 		Element(int Data, Element* pLeft = nullptr, Element* pRight = nullptr)
 			:Data(Data), pLeft(pLeft), pRight(pRight)
 		{
-			cout << "EConstructor:\t" << this << endl;
+			//cout << "EConstructor:\t" << this << endl;
 		}
 		~Element()
 		{
-			cout << "EDestructor:\t" << this << endl;
+			//cout << "EDestructor:\t" << this << endl;
 		}
 		friend class Tree;
 		friend class UniqueTree;
@@ -36,13 +43,12 @@ public:
 	}
 	Tree() :Root(nullptr)
 	{
-		cout << "TConstructor:\t" << this << endl;
+		//cout << "TConstructor:\t" << this << endl;
 	}
 	~Tree()
 	{
-		cout << "TDestructor:\t" << this << endl;
+		//cout << "TDestructor:\t" << this << endl;
 	}
-	//1. Выяснить, почему в дереве не появляются элементы;
 	void insert(int Data, Element* Root)
 	{
 		if (this->Root == nullptr)this->Root = new Element(Data);
@@ -58,7 +64,6 @@ public:
 			else insert(Data, Root->pRight);
 		}
 	}
-//2. В классе Tree написать метод print();
 	void print(Element* Root)const
 	{
 		if (Root == nullptr)return;
@@ -66,16 +71,6 @@ public:
 		cout << Root->Data << '\t';
 		print(Root->pRight);
 	}
-	/*int minValue()
-	{
-		int minValue;
-		while (Root != nullptr)
-		{
-			minValue = Root->Data;
-			Root = Root->pLeft;
-		}
-		return minValue;
-	}*/
 	int minValue(Element* Root)
 	{
 		if (Root == nullptr) return 0;
@@ -102,7 +97,37 @@ public:
 	{
 		return (double)Sum(Root) / Count(Root);
 	}
-
+	//Обеспечить вызов методов без необходимости передавать в них корень дерева
+	//tree.print(tree.GetRoot()) = > tree.print();
+	void print()
+	{
+		print(this->getRoot());
+	}
+	int minValue()
+	{
+		return minValue(this->getRoot());
+	}
+	int maxValue()
+	{
+		return maxValue(this->getRoot());
+	}
+	int Count()
+	{
+		return Count(this->getRoot());
+	}
+	int Sum()
+	{
+		return Sum(this->getRoot());
+	}
+	int Depth()							//возвращает глубину дерева
+	{
+		if (Root == nullptr)return 0;
+		if (Root->pLeft != nullptr)
+		print(Root->pLeft);
+		cout << Root->Data << '\t';
+		print(Root->pRight);
+		return;
+	}
 };
 
 class UniqueTree :public Tree
@@ -134,27 +159,39 @@ void main()
 	Tree tree;
 	for (int i = 0; i < n; i++)
 	{
-		tree.insert(rand() % 100, tree.getRoot());
-	}		
-	tree.print(tree.getRoot());
+		int value = rand() % 100;
+		tree.insert(value, tree.getRoot());
+		cout << value << ' ';
+	}
 	cout << endl;
-	//cout << "minValue = " << tree.minValue() << endl;
-	cout << "minimal value in tree: " << tree.minValue(tree.getRoot()) << endl;
-	cout << "maximal value in tree: " << tree.maxValue(tree.getRoot()) << endl;
-	cout << "Count of elements of tree: " << tree.Count(tree.getRoot()) << endl;
-	cout << "Sum of elements of tree: " << tree.Sum(tree.getRoot()) << endl;
+	cout << "method \"print(getRoot())\":" << endl;
+	tree.print(tree.getRoot());
+	cout << "method \"print()\":\n";
+	tree.print();
+	cout << endl;
+	cout << "minimal value in tree by minValue(tree.getRoot()): " << tree.minValue(tree.getRoot()) << endl;
+	cout << "minimal value in tree by minValue(): " << tree.minValue() << endl;
+	cout << "maximal value in tree by maxValue(tree.getRoot()): " << tree.maxValue(tree.getRoot()) << endl;
+	cout << "maximal value in tree by maxValue(): " << tree.maxValue() << endl;
+	cout << "Count of elements of tree by Count(tree.getroot()): " << tree.Count(tree.getRoot()) << endl;
+	cout << "Count of elements of tree by Count(): " << tree.Count() << endl;
+	cout << "Sum of elements of tree by Sum(tree.getRoot()): " << tree.Sum(tree.getRoot()) << endl;
+	cout << "Sum of elements of tree by Sum(): " << tree.Sum() << endl;
 	cout << "Avg of elements of tree: " << tree.Avg() << endl;
 
-	UniqueTree tree2;
+	/*UniqueTree tree2;
 	for (int i = 0; i < n; i++)
 	{
 		tree2.insert(rand() % 100, tree2.getRoot());
-	}
-	tree2.print(tree2.getRoot());
-	cout << "minimal value in tree: " << tree2.minValue(tree2.getRoot()) << endl;
-	cout << "maximal value in tree: " << tree2.maxValue(tree2.getRoot()) << endl;
-	cout << "Count of elements of tree: " << tree2.Count(tree2.getRoot()) << endl;
-	cout << "Sum of elements of tree: " << tree2.Sum(tree2.getRoot()) << endl;
-	cout << "Avg of elements of tree: " << tree2.Avg() << endl;
+	}*/
+	//tree2.print(tree2.getRoot());
+	//cout << "method \"print()\":\n";
+	//tree2.print();
+	//cout << "minimal value in tree: " << tree2.minValue() << endl;
+	//cout << "Count of elements of tree: " << tree2.Count() << endl;
+	//cout << "Sum of elements of tree: " << tree2.Sum() << endl;
+	//cout << "Avg of elements of tree: " << tree2.Avg() << endl;
+	//cout << "maximal value in tree: " << tree2.maxValue() << endl;
+
 
 }
