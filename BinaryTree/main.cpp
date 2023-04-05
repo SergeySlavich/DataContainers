@@ -37,6 +37,10 @@ class Tree
 		{
 			cout << "EDestructor:\t" << this << endl;
 		}
+		bool isLeaf()const
+		{
+			return pLeft == pRight;
+		}
 		friend class Tree;
 		friend class UniqueTree;
 	}*Root;
@@ -100,9 +104,9 @@ public:
 	{
 		return (double)Sum(Root) / Count(Root);
 	}
-	void clear(int Data)
+	void erase(int Data)
 	{
-		clear(Data, Root);
+		erase(Data, Root);
 	}
 protected:
 	void insert(int Data, Element* Root)
@@ -180,9 +184,32 @@ protected:
 		if (Depth(Root->pLeft) + 1 > Depth(Root->pRight) + 1)return Depth(Root->pLeft) + 1;
 		else return Depth(Root->pRight) + 1;*/
 	}   
-	void clear(int Data, Element* Root)
+	void erase(int Data, Element*& Root)
 	{
-
+		if (Root == nullptr) return;
+		erase(Data, Root->pLeft);
+		erase(Data, Root->pRight);
+		if (Data == Root->Data)
+		{
+			if (Root->isLeaf())
+			{
+				delete Root;
+				Root = nullptr;
+			}
+			else
+			{
+				if (Count(Root->pLeft) > Count(Root->pRight))
+				{
+					Root->Data = maxValue(Root->pLeft);
+					erase(maxValue(Root->pLeft), Root->pRight);
+				}
+				else
+				{
+					Root->Data = minValue(Root->pRight);
+					erase(minValue(Root->pRight), Root->pRight);
+				}
+			}
+		}
 	}
 };
 
@@ -211,8 +238,8 @@ public:
 	}
 };
 
-#define BASE_CHECK
-//#define DEPTH_CHECK
+//#define BASE_CHECK
+#define DEPTH_CHECK
 
 void main()
 {
@@ -245,29 +272,39 @@ void main()
 	cout << "Avg of elements of tree: " << tree.Avg() << endl;
 	//cout << "Depth of tree by Depth(tree.getRoot()): " << tree.Depth(tree.getRoot()) << endl;
 	cout << "Depth of tree by Depth(): " << tree.Depth() << endl;
+	cout << "Erase(34):\n";
+	tree.erase(34);
+	cout << "print()";
+	tree.print();
+	cout << "\n------------------------------------------------------------------\n";
 
-	UniqueTree tree2;
-	for (int i = 0; i < n; i++)
-	{
-		tree2.insert(rand() % 100);
-	}
-	tree2.print();
-	cout << "method \"print()\":\n";
-	tree2.print();
-	cout << "minimal value in tree: " << tree2.minValue() << endl;
-	cout << "maximal value in tree: " << tree2.maxValue() << endl;
-	cout << "Count of elements of tree: " << tree2.Count() << endl;
-	cout << "Sum of elements of tree: " << tree2.Sum() << endl;
-	cout << "Avg of elements of tree: " << tree2.Avg() << endl;
-	cout << "Depth of tree by Depth(): " << tree2.Depth() << endl;
+
+	//UniqueTree tree2;
+	//for (int i = 0; i < n; i++)
+	//{
+	//	tree2.insert(rand() % 100);
+	//}
+	//tree2.print();
+	//cout << "method \"print()\":\n";
+	//tree2.print();
+	//cout << "minimal value in tree: " << tree2.minValue() << endl;
+	//cout << "maximal value in tree: " << tree2.maxValue() << endl;
+	//cout << "Count of elements of tree: " << tree2.Count() << endl;
+	//cout << "Sum of elements of tree: " << tree2.Sum() << endl;
+	//cout << "Avg of elements of tree: " << tree2.Avg() << endl;
+	//cout << "Depth of tree by Depth(): " << tree2.Depth() << endl;
 #endif
 
 #ifdef DEPTH_CHECK
 	Tree tree = { 50, 25, 75, 16, 32, 64, 80, 48, 49 };
 	tree.print();
 	cout << "\ndepth of tree: " << tree.Depth() << endl;
+	int value;
+	cout << "input value for deleting: "; cin >> value;
+	tree.erase(value);
+	tree.print();
 
-	Tree tree2 = tree;
-	tree2.print();
+	//Tree tree2 = tree;
+	//tree2.print();
 #endif
 }
